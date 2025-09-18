@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8"/>
+  <title>Tra cứu học sinh</title>
+  <style>
+    body{font-family: Arial; max-width:600px;margin:40px;}
+    input{padding:8px;width:70%;}
+    button{padding:8px;}
+    #result{margin-top:20px;}
+  </style>
+</head>
+<body>
+  <h2>Tra cứu học sinh</h2>
+  <p>Nhập tên (hoặc 1 phần tên) để tìm:</p>
+  <input id="q" placeholder="VD: Nguyễn" />
+  <button id="btn">Tìm</button>
+
+  <div id="result"></div>
+
+  <script>
+    // 🔹 Dữ liệu mẫu: bạn có thể thêm/sửa theo ý mình
+    const students = [
+      {name: "Nguyễn Văn A", grade: "9A", id: "HS001"},
+      {name: "Trần Thị B", grade: "9B", id: "HS002"},
+      {name: "Lê Văn C", grade: "9A", id: "HS003"}
+    ];
+
+    function search(q) {
+      q = q.trim().toLowerCase();
+      if(!q) return [];
+      return students.filter(s => s.name.toLowerCase().includes(q));
+    }
+
+    document.getElementById('btn').addEventListener('click', () => {
+      const q = document.getElementById('q').value;
+      const res = search(q);
+      const container = document.getElementById('result');
+      if(res.length === 0) {
+        container.innerHTML = "<i>Không tìm thấy</i>";
+      } else {
+        container.innerHTML = "<ul>" +
+          res.map(r => `<li><b>${r.name}</b> — Lớp: ${r.grade} — Mã: ${r.id}</li>`).join('') +
+          "</ul>";
+      }
+    });
+
+    // Nhấn Enter để tìm
+    document.getElementById('q').addEventListener('keydown', e => {
+      if(e.key === 'Enter') document.getElementById('btn').click();
+    });
+  </script>
+</body>
+</html>
